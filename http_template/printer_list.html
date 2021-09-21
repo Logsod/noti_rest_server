@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title>Список принтеров</title>
+</head>
+<body>
+<app_menu>
+
+    <br><br>Добавить принтер
+    <form action="{host}printer_list" enctype="application/x-www-form-urlencoded" method="post">
+
+        Коментарий<br>
+        <textarea name="comment" rows="5" cols="40"></textarea>
+        <br>
+        <input type="hidden" name="action" value="0">
+        <select name="model_id">
+            <printer_models>
+        </select>
+
+
+        <input type="submit" value="Добавить">
+    </form>
+    <br><br><hr>
+
+    <edit_comment_form>
+
+    <table border="1">
+        <tr>
+            <printer_list>
+        </tr>
+    </table>
+
+</body>
+</html>

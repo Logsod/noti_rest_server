@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title>Модели картриджей</title>
+</head>
+<body>
+<app_menu>
+
+    <br><br>Добавить модель картриджа
+    <form action="cartridge_model" enctype="application/x-www-form-urlencoded" method="post">
+        <input type="hidden" name="action" value="0">
+        <input type="text" name="cartridge_model_name" value="">
+        <input type="submit" value="Добавить">
+    </form>
+    <br><br>
+    <hr>
+    Удалить
+    <form action="cartridge_model" enctype="application/x-www-form-urlencoded" method="post">
+        <table border="1">
+            <cartridge_list_form_html>
+                <!--
+            <tr>
+                <td><input type="checkbox" name="cartridge_model_id"></td>
+                <td><input type="text" name="cartridge_model_name" value="" disabled></td>
+            </tr>
+            -->
+        </table>
+
+
+         <p><select multiple size="8" name="printers_id">
+    <printers_list>
+    </select></p>
+
+
+
+        <br>
+        <select name="action">
+            <option value="2">Добавить модель принтера</option>
+            <option value="3">Удалить модели принтеров</option>
+            <option value="1">Удалить картридж</option>
+        </select>
+
+
+        <input type="submit" value="Выполнить">
+    </form>
+
+</body>
+</html>

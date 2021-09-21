@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title>Склад</title>
+</head>
+<body>
+<app_menu>
+
+    <br><br>Склад
+    <br><font color="red"><error_message></font><br><br>
+
+    <form action="base_state" enctype="application/x-www-form-urlencoded" method="post">
+        <table border="1">
+            <base_cartridge_list>
+        </table>
+        <br>
+
+        Новое количество<br>
+        <input type="text" name="new_amount">
+        <br><br>
+        <select name="action">
+            <option value="0">Взять</option>
+            <option value="1">Изменить количество</option>
+            <option value="2">Удалить</option>
+        </select>
+        <br><br><br>
+        <input type="submit" value="Применить" onClick="return confirm('Применить?')">
+    </form>
+    <br><br>
+
+
+    <hr>
+    <br>
+    Добавить картриджи<br><br>
+    <form action="base_state" enctype="application/x-www-form-urlencoded" method="post">
+        <input type="hidden" name="action" value="3">
+        Модель<br>
+        <select name="cartridge_id">
+            <cartridge_model_list>
+        </select>
+        <br><br>
+        Количество<br>
+        <input type="text" name="amount" value="0">
+        <input type="submit" value="Добавить">
+    </form>
+</body>
+</html>

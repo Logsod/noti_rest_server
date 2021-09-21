@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title>Статус</title>
+</head>
+<body>
+<app_menu>
+
+    <br><br>Статус
+    <form action="{host}state/{current_state_id}" enctype="application/x-www-form-urlencoded" method="post">
+        <table border="1">
+            <cartridge_list>
+        </table>
+
+        <br>
+        Новый статус
+        <br>
+
+
+        <select name="new_state">
+            <status_list>
+        </select>
+        <br>
+        <br>
+
+        <select name="action">
+          <option value="0">Изменить статус</option>
+          <option value="1">Удалить</option>
+        </select>
+        <input type="submit" value="Применить" onClick="return confirm('Применить?')">
+    </form>
+    <br><br>
+
+
+
+</body>
+</html>

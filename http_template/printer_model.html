@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title>Модели принтеров</title>
+</head>
+<body>
+<app_menu>
+
+    <br><br>Добавить модель принтера
+    <form action="printer_model" enctype="application/x-www-form-urlencoded" method="post">
+        <input type="hidden" name="action" value="0">
+        <input type="text" name="printer_model_name" value="">
+        <input type="submit" value="Добавить">
+    </form>
+<br><br>
+<hr>
+    Удалить
+    <form action="printer_model" enctype="application/x-www-form-urlencoded" method="post">
+        <table border="1">
+            <input type="hidden" name="action" value="1">
+            <printer_list_form_html>
+                <!--
+            <tr>
+                <td><input type="checkbox" name="printer_model_id"></td>
+                <td><input type="text" name="printer_model_name" value="" disabled></td>
+            </tr>
+            -->
+        </table>
+        <br>
+        <input type="submit" value="Удалить отмеченные">
+    </form>
+
+</body>
+</html>
