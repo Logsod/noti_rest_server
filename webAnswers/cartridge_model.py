@@ -67,19 +67,18 @@ class WebCartridgeModel:
         if token_result:
             data = web_db.Db()
             param = req.media
-            print(param)
             # action list
             # 0 add cartridge
             # 1 delete cartridge
             # 2 add dep
             # 3 clear dep
             if param['action'] == "1":
-                if "cartridge_model_id" in param:
-                    if type(param['cartridge_model_id']) is list:
-                        for ids in param['cartridge_model_id']:
+                if "cartridges_id" in param:
+                    if type(param['cartridges_id']) is list:
+                        for ids in param['cartridges_id']:
                             data.deleteCartdrigeModel(ids)
                     else:
-                        data.deleteCartdrigeModel(param['cartridge_model_id'])
+                        data.deleteCartdrigeModel(param['cartridges_id'])
 
             if param['action'] == "2":
 
