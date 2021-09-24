@@ -1,0 +1,507 @@
+openapi: 3.0.0
+servers:
+  - description: local server for test
+    url: "http://localhost:8000"
+info:
+  title: cartridge service api
+  version: "1.0.0"
+  contact:
+    email: wwwref@gmail.com
+tags:
+  - name: signin
+    description: all about signing
+  - name: printerModel
+    description: printer model operations
+  - name: printer
+    description: printer operation
+  - name: cartridgemodel
+    description: cartridge model operations
+  - name: cartridgeBaseState
+    description: cartridge states
+  - name: cartridgeState
+    description: cartridge state operation
+paths:
+  /signin:
+    get:
+      tags:
+        - signin
+      summary: login
+      description: |
+        login
+      parameters:
+      - in: query
+        name: login
+        description: user login
+        schema:
+          type: string
+      - in: query
+        name: password
+        description: user password
+        schema:
+          type: string
+      responses:
+        '200':
+          description: request result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
+                
+    post:
+      tags:
+        - signin
+      summary: logout
+      requestBody:
+        description: logout and delete token
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+
+      responses:
+        '200':
+          description: success
+  /checkToken:
+    get:
+      tags: 
+      - signin
+      summary: check token
+      description: |
+        check token is valid
+      parameters:
+      - in: query
+        name: token
+        description: token
+        schema:
+          type: string
+      responses:
+        '200':
+          description: request result
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/CheckTokenResponse'
+  /printerModel:
+    post:
+      tags:
+        - printerModel
+      summary: add printer model
+      requestBody:
+        description: add printer model
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                printerModelName:
+                  type: string
+      responses:
+        '200':
+          description: success
+    get:
+      tags:
+       - printerModel
+      summary: get all printer models
+      description: |
+        get all printer models
+      responses:
+        '200':
+          description: request result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrinterModelArray'
+    
+    put:
+      tags: 
+      - printerModel
+      summary: update printer model
+      description: |
+        update printer model name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrinterModel'
+      responses:
+        '200':
+          description: success
+  /printerModel/{id}:
+    delete:
+      tags:
+      - printerModel
+      parameters:
+      - in: path
+        name: id
+        description: model id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success
+  /printer:        
+    post:
+      tags:
+      - printer
+      summary: add printer 
+      requestBody:
+        description: add printer model
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                model_id:
+                  type: integer
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: success get new printer info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrinterDevice'
+    get:
+      tags:
+      - printer
+      summary: get all printers
+      description: |
+        get list of printer devices
+      responses:
+        '200':
+          description: printer list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrinterDeviceArray'
+    put:
+      tags:
+      - printer
+      summary: update printer comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrinterDevice'
+      responses:
+        '200':
+          description: success
+  /printer/{id}: 
+    delete:
+      tags:
+      - printer
+      summary: delete printer by id
+      parameters:
+      - in: path
+        name: id
+        description: printer id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success
+  /cartridgeModel:
+    post:
+      tags:
+      - cartridgemodel
+      summary: add cartridge model
+      requestBody:
+        description: add cartridge request
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                cartridgeModelName:
+                  type: string
+      responses:
+        '200':
+          description: success 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartridgeModel'
+    get:
+      tags:
+      - cartridgemodel
+      summary: get all cartridge model
+      description: |
+        get list of cartridge model
+      responses:
+        '200':
+          description: cartridge model list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartridgeModelArray'
+    put:
+      tags:
+      - cartridgemodel
+      summary: delete cartridge model
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                printer_id:
+                  type: array
+                  items:
+                    type: "integer"
+                delete:
+                  type: "boolean"
+                  default: true
+      responses:
+        '200':
+          description: success
+  /cartridgeModel/model_dep:
+    get:
+      tags:
+      - cartridgemodel
+      summary: get cartridge model by printer dependency
+      parameters:
+      - in: query
+        name: id
+        description: printer id
+        schema:
+         type: integer
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartridgeModelArray'
+    put:
+      tags:
+      - cartridgemodel
+      summary: update cartridge model dependency
+      description: |
+        clear or update cartridge dependency use clear
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cartridges_id:
+                  type: array
+                  items:
+                    type: "integer"
+                printers_id:
+                  type: array
+                  items:
+                    type: "integer"
+                clear:
+                  type: "boolean"
+                  enum: [true,false]
+                  default: false
+      responses:
+        '200':
+          description: operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartridgeModelArray'
+  /cartridgeBaseState:
+    get:
+      tags:
+      - cartridgeBaseState
+      summary: get all cartridges from base state
+      description: |
+        get list cartridges from base state
+      responses:
+        '200':
+          description: state list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartridgeBaseStateModelArray'
+    post:
+      tags:
+      - cartridgeBaseState
+      summary: cartridge operations
+      requestBody:
+        description: |
+          perform operation by action id
+          add cartridge to base state and return new cartridge id
+          1 change amount
+          2 take one
+          3 delete
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: "integer"
+                cartridge_id:
+                  type: "integer"
+                amount:
+                  type: "integer"
+                action:
+                  type: "integer"
+                  enum: [0,1,2,3]
+                  default: 0
+
+      responses:
+        '200':
+          description: state list
+
+  /cartridgeStateList:
+    get:
+      tags:
+      - cartridgeState
+      summary: get all cartridge states
+      description: |
+        get list of possible cartridge state
+      responses:
+        '200':
+          description: state list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartridgeLabelStateModelArray'
+
+  /cartridgeState/{state_id}:
+    get:
+      tags:
+      - cartridgeState
+      summary: get cartridge by state
+      parameters:
+      - in: path
+        name: state_id
+        description: state id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: state list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartridgeStateModelArray'
+  /cartridgeState:
+    post:
+      tags:
+      - cartridgeState
+      summary: cartridge state operation
+      description: |
+        action list</p>
+        0 change status</p>
+        1 delete</p>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                row_state_id:
+                  type: "integer"
+                state:
+                  type: "integer"
+                action:
+                  enum: [0, 1]
+      responses:
+        '200':
+          description: success
+components:
+  schemas:
+    SignInResponse:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        token:
+          type: "string"
+        success:
+          type: "boolean"
+    CheckTokenResponse:
+      type: object
+      properties:
+        tokenIsValid:
+          type: "boolean"
+    PrinterModel:
+      type: object
+      properties:
+        id:
+          type: "integer"
+        model:
+          type: "string"
+    PrinterModelArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/PrinterModel'
+    PrinterDevice:
+      type: object
+      properties:
+        id:
+          type: "integer"
+        comment:
+          type: "string"
+        model:
+          type: "string"
+    PrinterDeviceArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/PrinterDevice'
+    CartridgeModel:
+      type: object
+      properties:
+        id:
+          type: "integer"
+        model:
+          type: "string"
+        depString:
+          type: "string"
+    CartridgeModelArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/PrinterDevice'
+    CartridgeBaseStateModel:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        cartridge_id:
+          type: "integer"
+        amount:
+          type: "integer"
+        model:
+          type: "string"
+    CartridgeBaseStateModelArray:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/CartridgeBaseStateModel'
+    CartridgeLabelStateModel:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        state_name:
+          type: "integer"
+    CartridgeLabelStateModelArray:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/CartridgeLabelStateModel'
+    CartridgeStateModel:
+      type: "object"
+      properties:
+        row_state_id:
+          type: "integer"
+        cartridge_id:
+          type: "integer"
+        model:
+          type: "string"
+    CartridgeStateModelArray:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/CartridgeStateModel'
+          

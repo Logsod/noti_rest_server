@@ -24,19 +24,19 @@ import webAnswers.base_state
 import webAnswers.state
 
 
-# ######################################
-# # disable cross origin for swagger api test
-# from falcon_cors import CORS
-# cors = CORS(
-#     allow_all_origins=True,
-#     allow_all_headers=True,
-#     allow_all_methods=True,
-# )
-# app = falcon.API(middleware=[cors.middleware])
+######################################
+# disable cross origin for swagger api test
+from falcon_cors import CORS
+cors = CORS(
+    allow_all_origins=True,
+    allow_all_headers=True,
+    allow_all_methods=True,
+)
+app = falcon.App(middleware=[cors.middleware])
 
 #######################################
 # main workflow
-app = falcon.App()
+# app = falcon.App()
 
 # app.req_options.auto_parse_form_urlencoded = True
 # android
