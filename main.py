@@ -22,21 +22,21 @@ import webAnswers.printer_list
 import webAnswers.cartridge_model
 import webAnswers.base_state
 import webAnswers.state
-
-
+import webAnswers.log
 ######################################
 # disable cross origin for swagger api test
-from falcon_cors import CORS
-cors = CORS(
-    allow_all_origins=True,
-    allow_all_headers=True,
-    allow_all_methods=True,
-)
-app = falcon.App(middleware=[cors.middleware])
+# from falcon_cors import CORS
+#
+# cors = CORS(
+#     allow_all_origins=True,
+#     allow_all_headers=True,
+#     allow_all_methods=True,
+# )
+# app = falcon.App(middleware=[cors.middleware])
 
 #######################################
 # main workflow
-# app = falcon.App()
+app = falcon.App()
 
 # app.req_options.auto_parse_form_urlencoded = True
 # android
@@ -64,12 +64,18 @@ app.add_route('/printer_list/{action_id}/{edit_id}', webAnswers.printer_list.Web
 app.add_route('/cartridge_model', webAnswers.cartridge_model.WebCartridgeModel())
 app.add_route('/base_state', webAnswers.base_state.WebBaseState())
 app.add_route('/state/{state_id}', webAnswers.state.WebState())
+app.add_route('/log', webAnswers.log.WebLog())
 
 # todo 
 # некоторые запросы используют несколько подключений к mysql что не есть хорошо
 # можно добавить инверсию зависимостей и прокидывать подключение
-
 # updateCartridgeModelDep дохрена запросов, можно как то оптимизировать
+
+
+# добавление картриджей теперь не дублирует модель если такая уже есть в списке а добавляет к существующей
+# добавление картриджей в статус "Работа" теперь использует поле количество
+# добавлен лог
+# добавлена группировка и выпадавшие списки
 
 if __name__ == '__main__':
     with make_server('', 8000, app) as httpd:

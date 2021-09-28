@@ -66,44 +66,60 @@ class WebBaseState:
         if token_result:
             data = web_db.Db()
             param = req.media
-            print(param)
             # action list
             # 0 take
             # 1 change amount
             # 2 delete
             # 3 add to base state
             error_message = ""
+            print(param)
             if param['action'] == "0":
                 if "id" in param:
                     if type(param['id']) is list:
                         for ids in param['id']:
-                            if data.takeOneCartridge(ids) is False:
+                            if data.takeCartridges(ids, param['new_amount']) is False:
                                 print("offfff")
                                 error_message = "Закончились картриджи"
+                            else:
+                                model = data.getCartridgeModelByBaseStateId(ids)
+                                data.writeToLog("Взято картриджей:" + param['new_amount'] + " модель:" + model)
 
                     else:
-                        if data.takeOneCartridge(param['id']) is False:
+                        if data.takeCartridges(param['id'], param['new_amount']) is False:
                             print("offfff")
                             error_message = "Закончились картриджи"
+                        else:
+                            model = data.getCartridgeModelByBaseStateId(param['id'])
+                            data.writeToLog("Взято картриджей:" + param['new_amount']+" модель:"+model)
 
             if param['action'] == "1":
                 if "id" in param:
                     if type(param['id']) is list:
                         for ids in param['id']:
                             data.changeBaseStateCartridgeAmount(ids, param['new_amount'])
+                            model = data.getCartridgeModelByBaseStateId(ids)
+                            data.writeToLog("Новое количество:" + param['new_amount'] + " модель:" + model)
                     else:
                         data.changeBaseStateCartridgeAmount(param['id'], param['new_amount'])
+                        model = data.getCartridgeModelByBaseStateId(param['id'])
+                        data.writeToLog("Новое количество:" + param['new_amount'] + " модель:" + model)
 
             if param['action'] == "2":
                 if "id" in param:
                     if type(param['id']) is list:
                         for ids in param['id']:
+                            model = data.getCartridgeModelByBaseStateId(ids)
+                            data.writeToLog("Запись была удалена:" + param['new_amount'] + " модель:" + model)
                             data.deleteCartridgeFromBaseState(ids)
                     else:
+                        model = data.getCartridgeModelByBaseStateId(param['id'])
+                        data.writeToLog("Запись была удалена:" + param['new_amount'] + " модель:" + model)
                         data.deleteCartridgeFromBaseState(param['id'])
 
             if param['action'] == "3":
                 data.addCartridgesToBaseState(param['cartridge_id'], param['amount'])
+                model = data.getCartridgeModelByCartridgeId(param['cartridge_id'])
+                data.writeToLog("Добавлено:" + param['amount'] + " модель:" + model)
             html = self.get_basic_html()
             html = html.replace("<error_message>", error_message)
             resp.text = html

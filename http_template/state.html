@@ -7,20 +7,36 @@
     <meta http-equiv="Expires" content="0"/>
     <title>Статус</title>
 </head>
+<style>
+    /*spoiler*/
+dl.codebox {
+background-color: #cccccc;
+padding:5px;
+margin: 0px;
+  font-family: calibri;
+}
+
+
+dl.codebox dt {
+background-color: #cccccc;
+    padding: 5px;
+    font-family: calibri;
+    margin: 0px;
+}
+</style>
 <body>
 <app_menu>
 
     <br><br>Статус
     <form action="{host}state/{current_state_id}" enctype="application/x-www-form-urlencoded" method="post">
-        <table border="1">
-            <cartridge_list>
-        </table>
 
+        <spoilers>
+<!--        <table border="1">-->
+<!--            <cartridge_list>-->
+<!--        </table>-->
         <br>
         Новый статус
         <br>
-
-
         <select name="new_state">
             <status_list>
         </select>
@@ -34,7 +50,6 @@
         <input type="submit" value="Применить" onClick="return confirm('Применить?')">
     </form>
     <br><br>
-
 
 
 </body>
