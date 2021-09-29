@@ -1,4 +1,4 @@
-SERVER_HOST = "http://localhost:8000/"
+SERVER_HOST = "http://192.168.0.103:8000/"
 MYSQL_HOST = "localhost"
 MYSQL_DATABASE = "cartridges"
 MYSQL_USER = "root"
